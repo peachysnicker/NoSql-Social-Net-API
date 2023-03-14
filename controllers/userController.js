@@ -30,8 +30,38 @@ module.exports = {
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => res.status(500).json(err));
   },
+
+  //UPDATE a user by _id
+  updateUser(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $set: req.body },
+      { runValidators: true, new: true }
+    )
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          res.status(404).json({ message: "No user found with this id!" });
+          return;
+        }
+        res.json(dbUserData);
+      })
+      .catch((err) => res.status(400).json(err));
+  },
+
+  //DELETE a user by _id
+  deleteUser(req, res) {
+    User.findOneAndDelete({ _id: req.params.userId })
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          res.status(404).json({ message: "No user found with this id!" });
+          return;
+        }
+      })
+      .then(() => {
+        res.json({ message: "Successfully deleted user" });
+      })
+      .catch((err) => res.status(400).json(err));
+  },
+
+  //BONUS to remove a user's associated thoughts when deleted
 };
-
-//UPDATE a user by _id
-
-//DELETE a user by _id
