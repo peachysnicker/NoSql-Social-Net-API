@@ -1,17 +1,20 @@
-const User = require("../models/Users");
+const { User, Thought, Reaction } = require("../models");
 
 module.exports = {
+  //GET all users
   getUsers(req, res) {
     User.find()
-      .then((users) => res.json(users))
+      .select("-__v")
+      .then((dbUserData) => res.json(dbUserData))
       .catch((err) => res.status(500).json(err));
   },
-  // get a single user
+
+  //GET a single user by _id & populate thought and friend data
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
       // Populate means to populate 'thoughts' and 'friends'
       .populate("thoughts")
-      // .populate('friends')
+      .populate("friends")
       // If no user then error with message
       .then((user) =>
         !user
@@ -20,10 +23,15 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  // Create a new user
+
+  //CREATE a new user
   createUser(req, res) {
     User.create(req.body)
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => res.status(500).json(err));
   },
 };
+
+//UPDATE a user by _id
+
+//DELETE a user by _id
