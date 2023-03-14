@@ -6,26 +6,27 @@ const userSchema = new Schema(
     username: {
       type: String,
       required: true,
-      // NEED TO ADD TRIMMED FEATURE
+      unique: true,
+      trim: true,
     },
     email: {
       type: String,
       required: true,
-      // ADD UNIQUE FEATURE TRUE
-      // ADD MUST MATCH VALID EMAIL ADDRESS - LOOK INTO MONGOOSE MATCHING VALIDATION
+      unique: true,
+      match: [/.+@.+\..+/], //must match valid email address
     },
     thoughts: [
       // array of thoughts and it refers to the thoughts model
       {
         type: Schema.Types.ObjectId,
-        ref: "thoughts",
+        ref: "Thought",
       },
     ],
     friends: [
       // array of thoughts and it refers to the thoughts model
       {
         type: Schema.Types.ObjectId,
-        ref: "user",
+        ref: "User",
       },
     ],
   },
@@ -38,7 +39,12 @@ const userSchema = new Schema(
   }
 );
 
-// Initialize the User model
-const Users = model("user", userSchema);
+//create virtual friendCount that retrieves the length of the user's friends array field on query
+UserSchema.virtual("friendCount").get(function () {
+  return this.friends.length;
+});
 
-module.exports = Users;
+// Initialize the User model
+const User = model("User", userSchema);
+
+module.exports = User;
