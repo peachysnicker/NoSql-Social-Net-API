@@ -64,4 +64,8 @@ module.exports = {
   },
 
   //BONUS to remove a user's associated thoughts when deleted
+
+  //POST to add a new friend to user's friend list
+
+  //DELETE to remove a friend from user's friend list
 };
