@@ -13,8 +13,8 @@ module.exports = {
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
       // Populate means to populate 'thoughts' and 'friends'
-      .populate("thoughts")
-      .populate("friends")
+      .populate({ path: "thoughts", select: "-__v" })
+      .populate({ path: "friends", select: "-__v" })
       // If no user then error with message
       .then((user) =>
         !user
@@ -55,7 +55,7 @@ module.exports = {
         !user
           ? res.status(404).json({ message: "No such user exists" })
           : Thought.findOneAndUpdate(
-              { userss: req.params.userId },
+              { users: req.params.userId },
               { $pull: { users: req.params.userId } },
               { new: true }
             )
