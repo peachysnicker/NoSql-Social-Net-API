@@ -1,4 +1,4 @@
-const { User, Thought, Reaction } = require("../models");
+const { User, Thought } = require("../models");
 
 module.exports = {
   //GET all users
@@ -66,7 +66,7 @@ module.exports = {
               message: "User deleted, but no thoughts found",
             })
           : res.json({
-              message: "User successfully deleted with associated thought?",
+              message: "User successfully deleted with associated thought!",
             })
       )
       .catch((err) => {

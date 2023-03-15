@@ -29,7 +29,7 @@ module.exports = {
         .then((user) =>
           !user
             ? res.status(404).json({ message: "No user with that ID" })
-            : res.json({ message: "Thought created! 🎉" })
+            : res.json({ message: "Thought created!" })
         )
         .catch((err) => {
           console.error(err);
@@ -69,7 +69,7 @@ module.exports = {
       })
       .then((user) => {
         if (!user) {
-          res.status(404).json({ message: "No user found with this id!" });
+          res.status(404).json({ message: "Error did not delete" });
           return;
         }
         res.json(user);
