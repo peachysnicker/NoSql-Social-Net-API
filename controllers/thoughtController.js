@@ -29,7 +29,7 @@ module.exports = {
         .then((user) =>
           !user
             ? res.status(404).json({ message: "No user with that ID" })
-            : res.json({ message: "Thought created!" })
+            : res.json(thought)
         )
         .catch((err) => {
           console.error(err);
@@ -59,7 +59,7 @@ module.exports = {
     Thought.findOneAndDelete({ _id: req.params.thoughtId })
       .then((deleteThought) => {
         if (!deleteThought) {
-          return res.status(404).json({ message: "No thought with this id!" });
+          return res.json({ message: "Successfully deleted the thought!" });
         }
         return User.findOneAndUpdate(
           { username: deleteThought.username },
@@ -69,7 +69,7 @@ module.exports = {
       })
       .then((user) => {
         if (!user) {
-          res.status(404).json({ message: "Error did not delete" });
+          res.json({ message: "Success!" });
           return;
         }
         res.json(user);
