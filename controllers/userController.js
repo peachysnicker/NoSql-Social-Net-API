@@ -5,7 +5,7 @@ module.exports = {
   getUsers(req, res) {
     User.find()
       .select("-__v")
-      .then((dbUserData) => res.json(dbUserData))
+      .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
 
@@ -27,7 +27,7 @@ module.exports = {
   //CREATE a new user
   createUser(req, res) {
     User.create(req.body)
-      .then((dbUserData) => res.json(dbUserData))
+      .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
 
@@ -38,12 +38,12 @@ module.exports = {
       { $set: req.body },
       { runValidators: true, new: true }
     )
-      .then((dbUserData) => {
-        if (!dbUserData) {
+      .then((user) => {
+        if (!user) {
           res.status(404).json({ message: "No user found with this id!" });
           return;
         }
-        res.json(dbUserData);
+        res.json(user);
       })
       .catch((err) => res.status(400).json(err));
   },
